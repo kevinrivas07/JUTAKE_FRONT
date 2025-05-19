@@ -13,7 +13,11 @@ function Admin() {
 
   const goToGestionLibros = () => {
     navigate('/admin-panel');
+
   };
+  const goToUpdateBook = () => {
+    navigate('/register-loan');
+    }
 
   return (
     <div className="contenedor-principal">
@@ -21,7 +25,6 @@ function Admin() {
       <header className="header">
         <h1 className="titulo">KTJ LIBRERIA</h1>
         <div className="nav-links">
-          <a href="/admin-panel">Volver</a>
           <a href="/" onClick={handleLogout}>Cerrar Sesión</a>
         </div>
       </header>
@@ -33,6 +36,10 @@ function Admin() {
         <div className="admin-buttons">
           <button onClick={goToGestionLibros} className="admin-button">
             Gestión de Libros
+          </button>
+
+          <button onClick={goToUpdateBook} className="admin-button">
+            Registrar Prestamos
           </button>
         </div>
       </div>

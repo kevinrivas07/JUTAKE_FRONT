@@ -138,7 +138,7 @@ export default function AdminPanel() {
               <td>{libro.estado}</td>
               <td>{libro.categoria || 'N/A'}</td>
               <td className="acciones">
-                <button className="edit-button icon-button">
+                <button className="edit-button icon-button" onClick={() => navigate('/update')}>
                   <img src='/src/assets/pencil_12126459.png' alt='Editar' />
                 </button>
                 <button className="delete-button icon-button">
