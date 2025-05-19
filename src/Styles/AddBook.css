@@ -1,0 +1,140 @@
+/* AddBook.css */
+
+.add-book-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.add-book-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.add-book-container h2 {
+  text-align: center;
+  color: #34495e;
+  margin-bottom: 2rem;
+}
+
+/* styles.css */
+header {
+  position: fixed;      /* lo pega al viewport */
+  top: 0;               /* arriba de todo */
+  left: 0;              /* alineado al borde izquierdo */
+  width: 100%;          /* ocupa todo el ancho */
+  background: #1e293b;  /* color de fondo (cámbialo a tu gusto) */
+  color: #fff;          /* color del texto */
+  z-index: 1000;        /* se superpone al resto del contenido */
+  padding: 0.75rem 1rem;/* espacio interno */
+  box-shadow: 0 2px 4px rgba(0,0,0,.1); /* sombrita opcional */
+}
+
+/* Esto es solo para que el resto de la página
+   no quede oculto detrás del header fijo */
+body {
+  margin: 0;
+  padding-top: 60px; /* mismo alto aproximado del header */
+}
+
+
+
+.title {
+  position: relative;
+  left: 890px; /* ajusta este valor según lo que necesites */
+  color: #34495e;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+
+.book-form {
+  width: 350px; /* reduce el ancho total del formulario */
+  padding: 2rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid black;
+  text-align: center;
+  position: relative;
+  left: 790px; /* mueve el formulario hacia la derecha */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* opcional: agrega sombra */
+}
+
+.book-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.book-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.book-form input {
+  width: 100%;
+  background-color: #fff;
+  padding: 0.6rem;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.book-form input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+
+.separator {
+  height: 1px;
+  background-color: #ddd;
+  margin: 2rem 0;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #34495e;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+img.select-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  background: none;
+  display: block;
+  margin: 10px auto; /* Esto la centra horizontalmente */
+  transition: transform 0.2s ease;
+}
+
+
+img.select-image:hover {
+  transform: scale(1.05);
+}

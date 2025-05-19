@@ -1,0 +1,177 @@
+.admin-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra todo horizontalmente */
+  min-height: 100vh;
+  background-color: white; /* Puedes cambiar esto si tienes otro fondo */
+}
+
+.header-admin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center; /* Centra el título y la flecha */
+  margin-bottom: 20px;
+}
+
+
+h1 {
+  font-size: 60px;
+  margin: 0;
+  color: black !important;
+  text-align: center;
+  width: 100%;         /* Que ocupe todo el ancho */
+  display: block;      /* Asegura que se comporte como un bloque */
+}
+
+.filtro-icon {
+  cursor: pointer;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 4px 0;
+  z-index: 10;
+  width: 150px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.dropdown-menu li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+.back-btn {
+  font-size: 50px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.btn {
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.agregar,
+.modificar {
+  background-color: #1D2D44;
+  width: 150px;      /* ancho fijo para ambos */
+  height: 40px;      /* altura fija para ambos */
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  /* para centrar el texto vertical y horizontalmente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; /* opcional para que se vean mejor */
+}
+
+.agregar:hover,
+.modificar:hover {
+  background-color: #34495e; /* color nuevo al hacer hover */
+}
+
+
+.search-box {
+  margin-left: auto;
+  position: relative;
+}
+
+.search-box input {
+  width: 300px;
+  padding: 8px 12px;
+  font-size: 16px;
+  height: 40px; /* Para que tenga la misma altura que los botones */
+  box-sizing: border-box; /* Que el padding no aumente el ancho */
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.books-table th,
+.books-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.books-table th {
+  background-color: #f1f5f9;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button,
+.delete-button{
+    background: #1D2D44;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  background-color: #ffffff;
+}
+
+.icon-button {
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.icon-button img {
+  width: 35px;
+  height: 35px;
+}
+
+.atras{
+  width: 35px;
+  height: 35px;
+}
+
+.icono {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
