@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios';
 import '../Styles/Login.css';
 import libreriaImg from '../assets/libreria.png';
 
@@ -9,6 +10,8 @@ class Register extends React.Component {
     super(props);
     this.state = {
       name: '',
+      card: '',
+      phone: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -19,9 +22,33 @@ class Register extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
-    this.props.register(this.state.email, this.state.password, this.state.confirmPassword);
+
+    const { name, card, phone, email, password, confirmPassword } = this.state;
+
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/users', {
+        name,
+        card,
+        phone,
+        email,
+        password,
+      });
+
+      console.log('Registro exitoso:', response.data);
+      alert('Registro exitoso. Ahora puedes iniciar sesión.');
+      // Redirección al login si usas React Router, por ejemplo:
+      // this.props.navigate('/'); o this.props.history.push('/')
+    } catch (error) {
+      console.error('Error en el registro:', error.response?.data || error.message);
+      alert('Error al registrarse. Revisa los datos o intenta más tarde.');
+    }
   };
 
   render() {
@@ -45,6 +72,28 @@ class Register extends React.Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="card">Cédula</Label>
+              <Input
+                type="text"
+                name="card"
+                id="card"
+                placeholder="Número de cédula"
+                value={this.state.card}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="phone">Teléfono</Label>
+              <Input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="Número de teléfono"
+                value={this.state.phone}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="email">Correo electrónico</Label>
               <Input
                 type="email"
@@ -58,7 +107,7 @@ class Register extends React.Component {
             <FormGroup>
               <Label for="password">Contraseña</Label>
               <Input
-                type="text"
+                type="password"
                 name="password"
                 id="password"
                 placeholder="******"
@@ -69,7 +118,7 @@ class Register extends React.Component {
             <FormGroup>
               <Label for="confirmPassword">Confirmar contraseña</Label>
               <Input
-                type="text"
+                type="password"
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="******"
@@ -86,6 +135,6 @@ class Register extends React.Component {
       </div>
     );
   }
-}            
+}
 
 export default Register;

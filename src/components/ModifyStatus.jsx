@@ -5,7 +5,6 @@ const ModifyStatus = () => {
   const [form, setForm] = useState({
     titulo: '',
     autor: '',
-    fechaPublicacion: '',
     estado: 'Disponible',
   });
 
@@ -13,7 +12,7 @@ const ModifyStatus = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const estadosValidos = ['Disponible', 'En Préstamo'];
@@ -22,20 +21,56 @@ const ModifyStatus = () => {
       return;
     }
 
-    console.log('Datos guardados:', form);
-    // Aquí puedes agregar la lógica para enviar al backend
+    try {
+      // Paso 1: Buscar el libro por título y autor
+      const query = new URLSearchParams({
+        title: form.titulo,
+        author: form.autor,
+      });
+
+      const resBusqueda = await fetch(`http://localhost:3000/api/books?${query}`);
+      const libros = await resBusqueda.json();
+
+      if (!libros.length) {
+        alert('Libro no encontrado');
+        return;
+      }
+
+      const libro = libros[0]; // Tomamos el primero que coincida
+      const estadoDisponible = form.estado === 'Disponible';
+
+      // Paso 2: Enviar PATCH al backend para actualizar disponibilidad
+      const resUpdate = await fetch(`http://localhost:3000/api/books/${libro.id}/availability`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ available: estadoDisponible }),
+      });
+
+      if (!resUpdate.ok) {
+        throw new Error('Error al actualizar el estado del libro');
+      }
+
+      alert('Estado actualizado correctamente');
+      setForm({
+        titulo: '',
+        autor: '',
+        estado: 'Disponible',
+      });
+    } catch (error) {
+      console.error(error);
+      alert('Error al modificar el estado del libro');
+    }
   };
 
   return (
-<div className="contenedor-principal">
-  <header className="header">
-    <h1 className="titulo">KTJ LIBRERIA</h1>
-    <div className="nav-links">
-      <a href="/admin-panel">Volver</a>
-      <a href="/">Cerrar Sesión</a>
-    </div>
-  </header>
-
+    <div className="contenedor-principal">
+      <header className="header">
+        <h1 className="titulo">KTJ LIBRERIA</h1>
+        <div className="nav-links">
+          <a href="/admin-panel">Volver</a>
+          <a href="/">Cerrar Sesión</a>
+        </div>
+      </header>
 
       <main className="form-container">
         <h2>MODIFICAR ESTADO DE LIBRO</h2>
@@ -60,16 +95,7 @@ const ModifyStatus = () => {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Fecha de Publicacion:</label>
-            <input
-              type="date"
-              name="fechaPublicacion"
-              value={form.fechaPublicacion}
-              onChange={handleChange}
-              required
-            />
-          </div>
+
           <div className="form-group">
             <label>Nuevo Estado:</label>
             <select

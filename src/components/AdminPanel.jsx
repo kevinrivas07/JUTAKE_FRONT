@@ -1,31 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ← NUEVO
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../Styles/AdminPanel.css';
 
-const booksData = [
-  {
-    titulo: 'Don Quijote de la Mancha',
-    autor: 'Miguel De Cervante',
-    estado: 'Disponible',
-    categoria: 'Clásico'
-  },
-  {
-    titulo: 'Cien años de Soledad',
-    autor: 'Gabriel Garcia Marquez',
-    estado: 'Prestado',
-    categoria: 'Realismo Mágico'
-  },
-  {
-    titulo: 'En agosto nos vemos',
-    autor: 'Gabriel Garcia Marquez',
-    estado: 'Disponible',
-    categoria: 'Realismo Mágico'
-  }
-];
-
 export default function AdminPanel() {
-  const navigate = useNavigate(); // ← NUEVO
+  const navigate = useNavigate();
 
+  const [booksData, setBooksData] = useState([]);
   const [autorFiltro, setAutorFiltro] = useState(null);
   const [tituloFiltro, setTituloFiltro] = useState(null);
   const [categoriaFiltro, setCategoriaFiltro] = useState(null);
@@ -33,14 +13,28 @@ export default function AdminPanel() {
   const [mostrarMenuTitulo, setMostrarMenuTitulo] = useState(false);
   const [mostrarMenuCategoria, setMostrarMenuCategoria] = useState(false);
 
-  const autoresUnicos = [...new Set(booksData.map(b => b.autor))];
-  const titulosUnicos = [...new Set(booksData.map(b => b.titulo))];
-  const categoriasUnicas = [...new Set(booksData.map(b => b.categoria || 'N/A'))];
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/books'); // Asegúrate de que esta ruta sea correcta
+        const data = await response.json();
+        setBooksData(data);
+      } catch (error) {
+        console.error('Error al cargar libros:', error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  const autoresUnicos = [...new Set(booksData.map(b => b.author))];
+  const titulosUnicos = [...new Set(booksData.map(b => b.title))];
+  const categoriasUnicas = [...new Set(booksData.map(b => b.genre || 'N/A'))];
 
   const librosFiltrados = booksData.filter(libro => {
-    const coincideAutor = autorFiltro ? libro.autor === autorFiltro : true;
-    const coincideTitulo = tituloFiltro ? libro.titulo === tituloFiltro : true;
-    const coincideCategoria = categoriaFiltro ? (libro.categoria || 'N/A') === categoriaFiltro : true;
+    const coincideAutor = autorFiltro ? libro.author === autorFiltro : true;
+    const coincideTitulo = tituloFiltro ? libro.title === tituloFiltro : true;
+    const coincideCategoria = categoriaFiltro ? (libro.genre || 'N/A') === categoriaFiltro : true;
     return coincideAutor && coincideTitulo && coincideCategoria;
   });
 
@@ -59,7 +53,6 @@ export default function AdminPanel() {
     setMostrarMenuCategoria(false);
   };
 
-
   return (
     <div className="admin-container">
       <div className="header-admin">
@@ -70,11 +63,11 @@ export default function AdminPanel() {
       </div>
 
       <div className="actions">
-        <button className="btn agregar"onClick={() => navigate('/addBook')}>
-            Agregar libro
+        <button className="btn agregar" onClick={() => navigate('/addBook')}>
+          Agregar libro
         </button>
         <button className="btn modificar" onClick={() => navigate('/modify-status')}>
-            Modificar Estado
+          Modificar Estado
         </button>
 
         <div className="search-box">
@@ -133,10 +126,10 @@ export default function AdminPanel() {
         <tbody>
           {librosFiltrados.map((libro, index) => (
             <tr key={index}>
-              <td>{libro.titulo}</td>
-              <td>{libro.autor}</td>
-              <td>{libro.estado}</td>
-              <td>{libro.categoria || 'N/A'}</td>
+              <td>{libro.title}</td>
+              <td>{libro.author}</td>
+              <td>{libro.available ? 'Disponible' : 'Prestado'}</td>
+              <td>{libro.genre || 'N/A'}</td>
               <td className="acciones">
                 <button className="edit-button icon-button" onClick={() => navigate('/update')}>
                   <img src='/src/assets/pencil_12126459.png' alt='Editar' />
