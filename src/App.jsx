@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/addBook" element={<AddBook />} />
-          <Route path="/update" element={<UpdateBook />} />
+          <Route path="/update/:id" element={<UpdateBook />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
           <Route path="/modify-status" element={<ModifyStatus />} />

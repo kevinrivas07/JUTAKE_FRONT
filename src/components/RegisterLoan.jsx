@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// src/componentes/RegisterLoan.jsx
+import { useState, useEffect } from 'react';
 import '../Styles/RegisterLoan.css';
 
 const LoanForm = () => {
@@ -9,12 +10,37 @@ const LoanForm = () => {
     returnDate: '',
   });
 
+  const [books, setBooks] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/books');
+        const data = await res.json();
+        setBooks(data.filter(book => book.available)); // Solo libros disponibles
+      } catch (err) {
+        console.error('Error al cargar libros:', err);
+      }
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/users');
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error('Error al cargar usuarios:', err);
+      }
+    };
+
+    fetchBooks();
+    fetchUsers();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLoanData({
-      ...loanData,
-      [name]: value
-    });
+    setLoanData({ ...loanData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -24,15 +50,15 @@ const LoanForm = () => {
       const response = await fetch('http://localhost:3000/api/loans', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           book: loanData.book,
           user: loanData.user,
           loanDate: new Date(loanData.loanDate),
           returnDate: loanData.returnDate ? new Date(loanData.returnDate) : null,
-          returned: false
-        })
+          returned: false,
+        }),
       });
 
       if (!response.ok) {
@@ -61,28 +87,38 @@ const LoanForm = () => {
 
         <div className="form-group">
           <label htmlFor="book">Nombre del Libro:</label>
-          <input
-            type="text"
+          <select
             id="book"
             name="book"
             value={loanData.book}
             onChange={handleChange}
             required
-            placeholder="Ej: Cien Años de Soledad"
-          />
+          >
+            <option value="">Selecciona un libro</option>
+            {books.map((book) => (
+              <option key={book.id} value={book.title}>
+                {book.title}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">
           <label htmlFor="user">Nombre del Usuario:</label>
-          <input
-            type="text"
+          <select
             id="user"
             name="user"
             value={loanData.user}
             onChange={handleChange}
             required
-            placeholder="Ej: Juan Pérez"
-          />
+          >
+            <option value="">Selecciona un usuario</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.name}>
+                {user.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">
@@ -108,7 +144,9 @@ const LoanForm = () => {
           />
         </div>
 
-        <button type="submit" className="submit-btn">Registrar Préstamo</button>
+        <button type="submit" className="submit-btn">
+          Registrar Préstamo
+        </button>
       </form>
     </div>
   );
