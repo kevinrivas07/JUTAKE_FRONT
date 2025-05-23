@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/ModifyStatus.css';
+import '../Styles/ModifyStatus.css';
 
 const ModifyStatus = () => {
   const [form, setForm] = useState({
